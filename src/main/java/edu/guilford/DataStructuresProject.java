@@ -28,10 +28,8 @@ public class DataStructuresProject {
         Scanner scanFile = null;
         Path dataLocation = null;
         boolean fileExists = false;
-        LinkedList sortedList = null;
-        TreeSet set = null;
-        // String fileName = null;
-
+        LinkedList<String> sortedList = null;
+        TreeSet<WordSet> set = new TreeSet<WordSet>();
         // In this part of the program, I wil create a code that sorts the words in the
         // Shadie_C_ResearchPaper.txt file alphabetically and writes them to a new file.
 
@@ -66,14 +64,18 @@ public class DataStructuresProject {
 
         // In this part of the program, I will a set that contains the words in the
         // LinkedList and the number of times each word appears in the LinkedList.
-        set = new TreeSet();
-        // add the words in the LinkedList to the set.
-        for (int i = 0; i < sortedList.size(); i++) {
-            set.add(sortedList.get(i) + " " + Collections.frequency(sortedList, sortedList.get(i)));
-        }
 
-        // sort the set by the number of times each word appears
-        
+        // create a set that contains the words in the LinkedList and the number of
+        // times each word appears in the LinkedList.
+        for (int i = 0; i < sortedList.size(); i++) {
+            String word = sortedList.get(i);
+            int frequency = Collections.frequency(sortedList, sortedList.get(i));
+            WordSet wordAndFrequency = new WordSet(word, frequency);
+            // sort the words in the set by frequency.
+            // Collections.sort(wordAndFrequency)
+            set.add(wordAndFrequency);
+        }
+        System.out.println(set.toString());
     }
 
     // method that returns the number of words in the Shadie_C_ResearchPaper.txt
@@ -81,29 +83,29 @@ public class DataStructuresProject {
 
     public static LinkedList readData(Scanner scan) throws NoSuchElementException, IndexOutOfBoundsException {
         // read the words from the Shadie_C_ResearchPaper.txt file.
-        LinkedList inputWords = new LinkedList();
+        LinkedList<String> inputWords = new LinkedList<String>();
         String word = scan.next();
         // seperate the words using the space character.
         try {
-                while (scan.hasNext()) {
-                    word = scan.next();
-                    // check if the word is a number using the isNumber method.
-                    if (isNumber(word) == true) {
-                        // go to the next word.
-                        continue;
-                    }
-                    // check the last character of the word to see if it is a letter.
-                    while (isPunctuation(word.charAt(word.length() - 1)) == true) {
-                        // delete the first character of the word.
-                        word = word.substring(0, word.length() - 1);
-                    }
-                    // check the first character of the word to see if it is a letter.
-                    while (isPunctuation(word.charAt(0)) == true) {
-                        // delete the last character of the word.
-                        word = word.substring(1, word.length());
+            while (scan.hasNext()) {
+                word = scan.next();
+                // check if the word is a number using the isNumber method.
+                if (isNumber(word) == true) {
+                    // go to the next word.
+                    continue;
+                }
+                // check the last character of the word to see if it is a letter.
+                while (isPunctuation(word.charAt(word.length() - 1)) == true) {
+                    // delete the first character of the word.
+                    word = word.substring(0, word.length() - 1);
+                }
+                // check the first character of the word to see if it is a letter.
+                while (isPunctuation(word.charAt(0)) == true) {
+                    // delete the last character of the word.
+                    word = word.substring(1, word.length());
 
-                    }
-                
+                }
+
                 // if the word is a word and not a number, add it to the list.
                 // but if the word is a number, do not add it to the list.
                 if (isNumber(word) == true) {
@@ -127,7 +129,7 @@ public class DataStructuresProject {
         BufferedWriter bufferWrite = new BufferedWriter(fileLocation);
         // writes the data to the file
         for (int i = 0; i < sortedList.size(); i++) {
-            bufferWrite.write(sortedList.get(i).toString());
+            bufferWrite.write(sortedList.get(i).toString() + "\n");
         }
         bufferWrite.close();
     }
