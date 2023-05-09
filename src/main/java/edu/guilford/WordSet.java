@@ -45,6 +45,6 @@ public class WordSet implements Comparable<WordSet> {
         } else {
             return 0;
         }
-    }
+    } 
 
 }
