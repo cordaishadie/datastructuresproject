@@ -18,6 +18,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.xml.namespace.QName;
+
 /**
  * Hello world!
  *
@@ -28,8 +30,8 @@ public class DataStructuresProject {
         Scanner scanFile = null;
         Path dataLocation = null;
         boolean fileExists = false;
-        LinkedList<String> sortedList = null;
-        TreeSet<WordSet> set = new TreeSet<WordSet>();
+        LinkedList<String> sortedList = new LinkedList<String>();
+        TreeSet<String> set = null;
         // In this part of the program, I wil create a code that sorts the words in the
         // Shadie_C_ResearchPaper.txt file alphabetically and writes them to a new file.
 
@@ -64,23 +66,21 @@ public class DataStructuresProject {
 
         // In this part of the program, I will a set that contains the words in the
         // LinkedList and the number of times each word appears in the LinkedList.
-
-        // create a set that contains the words in the LinkedList and the number of
-        // times each word appears in the LinkedList.
-        for (int i = 0; i < sortedList.size(); i++) {
-            String word = sortedList.get(i);
-            int frequency = Collections.frequency(sortedList, sortedList.get(i));
-            WordSet wordAndFrequency = new WordSet(word, frequency);
-            // sort the words in the set by frequency.
-            // Collections.sort(wordAndFrequency)
-            set.add(wordAndFrequency);
-        }
+        set = new TreeSet<String>();
+        // create a set that contains the words in the LinkedList and the number of times each word appears in the LinkedList.
+        for (int i = 0; i < sortedList.size(); i++) { // for each word in the sortedList
+            WordSet wordAndFrequency = new WordSet(sortedList.get(i), Collections.frequency(sortedList, sortedList.get(i))); // create a WordSet object that contains the word and the number of times the word appears in the sortedList.
+            // create a string that contains the word and the number of times the word appears in the sortedList
+            // *I believe that this is where I should sort the set by the frequency of the words.*
+            String wordAndFrequencyString = wordAndFrequency.getWord() + " " + wordAndFrequency.getFrequency() + "\n";
+            // add the WordSet attribute to the set.
+            set.add(wordAndFrequencyString);
+            // sort the set by the frequency of the using the compareTo method       
+        } 
         System.out.println(set.toString());
     }
 
-    // method that returns the number of words in the Shadie_C_ResearchPaper.txt
-    // file.
-
+    // method that returns the number of words in the Shadie_C_ResearchPaper.txt file.
     public static LinkedList readData(Scanner scan) throws NoSuchElementException, IndexOutOfBoundsException {
         // read the words from the Shadie_C_ResearchPaper.txt file.
         LinkedList<String> inputWords = new LinkedList<String>();
